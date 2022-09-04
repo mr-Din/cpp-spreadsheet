@@ -24,22 +24,25 @@ public:
     void PrintValues(std::ostream& output) const override;
     void PrintTexts(std::ostream& output) const override;
 
-    // Сброс кэша ячейки и зависимостей
+    // РЎР±СЂРѕСЃ РєСЌС€Р° СЏС‡РµР№РєРё Рё Р·Р°РІРёСЃРёРјРѕСЃС‚РµР№
     void InvalidateCell(const Position& pos);
-    // Добавление зависимости между основной ячейкой и завясящей
+    // Р”РѕР±Р°РІР»РµРЅРёРµ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РјРµР¶РґСѓ РѕСЃРЅРѕРІРЅРѕР№ СЏС‡РµР№РєРѕР№ Рё Р·Р°РІСЏСЃСЏС‰РµР№
     void AddDependentCell(const Position& main_cell, const Position& dependent_cell);
-    // Ячейки, зависящие от ячейки в pos
+    // РЇС‡РµР№РєРё, Р·Р°РІРёСЃСЏС‰РёРµ РѕС‚ СЏС‡РµР№РєРё РІ pos
     const std::set<Position> GetDependentCells(const Position& pos);
-    // Удаление зависимостей ячейки в pos
+    // РЈРґР°Р»РµРЅРёРµ Р·Р°РІРёСЃРёРјРѕСЃС‚РµР№ СЏС‡РµР№РєРё РІ pos
     void DeleteDependencies(const Position& pos);
 
 private:
-    // Ключ - ячейка, значение - зависимые ячейки
+    void UpdatePrintableSize();
+    bool CellExists(Position pos) const;
+    void ReserveToSheet(Position pos);
+
     std::map<Position, std::set<Position>> cells_to_cells_;
-    // Лист
     std::vector<std::vector<std::unique_ptr<Cell>>> sheet_;
 
     int max_row_ = 0;
     int max_col_ = 0;
     bool area_is_valid_ = true;
 };
+
